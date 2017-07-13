@@ -1,0 +1,16 @@
+.ui-autocomplete
+{
+    float : left;
+    clear : both; /* make sure it doesn't pull the next line up next to it */
+    position : absolute;;  /* z-index will not work without this */
+    z-index : 1000;
+    list-style : none;
+    background-color: #e0e0e0;
+    /*border: solid 1px lightblue;*/
+    text-align : left;
+    overflow-y : scroll;
+    width: 200px;
+    max-height : 100px;
+    margin : 0px; /* pull the list items over the left edge */
+    padding : 0px;
+}
