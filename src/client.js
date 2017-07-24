@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import * as StyledLibrary from './client1-4.js';
 // import Helpers from './helpers.js'
-
 var $ = require('jquery');
 
 function Submit(props) {
@@ -10,6 +9,122 @@ function Submit(props) {
     <button className={props.className} type={props.type}>{props.name}</button>
   )
 }
+
+
+// Lifting state up
+
+function BoilingVerdict(props) {
+    return <p>The water would { props.celsius >= 100 ? "not" : "" } boil.</p>
+}
+
+class Calculator extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      temperature: ''
+    }
+  }
+
+
+  render() {
+    const temperature = this.state.temperature;
+    return(
+      <div>
+        <TemperatureInput scale="c"/>
+        <TemperatureInput scale="f"/>
+        <BoilingVerdict celsius={parseFloat(temperature)} />
+      </div>
+    )
+  }
+}
+
+const scaleNames = {
+  c: "Celsius",
+  f: "Fahrenheit"
+}
+
+
+class TemperatureInput extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      temperature: ""
+    }
+  }
+
+  handleChange = (e) => {
+    this.setState({scale: e.target.value});
+  }
+
+  render() {
+    const scale = this.state.scale;
+    return(
+      <fildset>
+        <legend>Enter temperature in {scaleNames[scale]}:</legend>
+        <input value={this.state.scale} onChange={this.handleChange}/>
+      </fildset>
+    )
+  }
+}
+
+
+class LifeCycle extends React.Component {
+   constructor(props) {
+     super(props);
+     console.log("constructor");
+     this.state = {value: "the initial value"};
+   }
+
+   componentWillMount() {
+     console.log("component will mounted");
+   }
+
+   componentDidMount() {
+     console.log("component did mounted");
+   }
+
+   componentWillUpdate() {
+     console.log("component will updated");
+   }
+
+   componentDidUpdate() {
+     console.log("component did update");
+   }
+
+   componentWillUnmount() {
+     console.log("component will unmounted");
+   }
+
+  _changeState = (e) => {
+    this.setState({
+      value: 'changed value'
+    });
+  }
+
+
+  render() {
+    console.log("render");
+    return(
+      <div>
+          <button onClick={this._changeState}>Change State</button>
+          <label>{ this.state.value}</label>
+          <Child value={this.state.value} />
+      </div>
+    )
+  }
+}
+
+class Child extends React.Component {
+  componentWillReceiveProps() {
+    console.log("Component will receive props");
+  }
+
+  render() {
+    return null;
+  }
+}
+
+
 
 class App extends React.Component {
 
@@ -105,6 +220,7 @@ class AutoSuggest extends React.Component {
 
 ReactDOM.render(
   <div>
+    <LifeCycle />
     <StyledLibrary.Hello click="Click Me!" clicked="That's crazy! Click again!"/>
     <StyledLibrary.Clock/>
     <App myProps="myProps"/>

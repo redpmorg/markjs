@@ -6,13 +6,16 @@
   "scripts": {
     "express-server": "node ./server",
     "webpack-watch": "webpack -w",
+    "webpack-prod": "webpack -p",
     "dev": "concurrently --kill-others \"npm run webpack-watch\" \"npm run express-server\"",
+    "prod": "concurrently --kill-others \"npm run webpack-prod\" \"npm run express-server\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "Leonard LEPADATU",
   "license": "ISC",
   "dependencies": {
+    "autosuggest-highlight": "^3.1.0",
     "babel-loader": "^7.1.1",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-runtime": "^6.23.0",
@@ -23,7 +26,10 @@
     "babel-register": "^6.24.1",
     "express": "^4.15.3",
     "jquery": "^3.2.1",
+    "material-ui": "^1.0.0-alpha.22",
+    "material-ui-icons": "^1.0.0-alpha.19",
     "react": "^15.6.1",
+    "react-autosuggest": "^9.3.1",
     "react-bootstrap": "^0.31.1",
     "react-dom": "^15.6.1",
     "webpack": "^3.0.0"

@@ -214,3 +214,24 @@ https://github.com/babel/example-node-server
 https://scotch.io/tutorials/react-on-the-server-for-beginners-build-a-universal-react-and-node-app
 
 https://alejandronapoles.com/2016/09/29/simple-production-environment-with-webpack-and-express/
+
+
+### REACT LifeCycle Events Precedence ###
+
+<-- initilaize -->
+
+1. constructor
+2. componentWillMount
+3. render
+4. componentDidMount
+
+<-- changing state -->
+
+5. componentWillUpdate
+6. render
+7. componentWillReceiveProps
+8. componentDidUpdate
+
+<-- unmounting component -->
+
+9. componentWillUnmount
