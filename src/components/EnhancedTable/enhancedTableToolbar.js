@@ -10,10 +10,10 @@ import DeleteIcon from 'material-ui-icons/Delete';
 import EditIcon from 'material-ui-icons/Edit';
 import AddIcon from 'material-ui-icons/Add';
 import TextField from 'material-ui/TextField';
-import IntegrationAutosuggest from './components/autosuggest.js'
+import DeleteDialog from '../deleteDialog.js'
 
 const EnhancedTableToolbar = props => {
-  const {numSelected, classes, wipeJSONData, doSearch} = props;
+  const {title, numSelected, classes, doSearch} = props;
 
   return (
     <Toolbar
@@ -27,10 +27,8 @@ const EnhancedTableToolbar = props => {
                 type="subheading">{numSelected}
                 {numSelected > 1 ? 'rows' : 'row'} selected
               </Typography>
-            :
-              <Typography
-                type="title">
-                MarkJS v1.0
+            : <Typography type="title">
+                {title}
                 <div>
                   <TextField placeholder="search..." style={{fontSize: '11px'}} onChange={props.doSearch}/>
                 </div>
@@ -41,8 +39,8 @@ const EnhancedTableToolbar = props => {
           {numSelected > 0
           ?
           <div className={classes.actions}>
-            <IconButton aria-label="Delete">
-                <DeleteIcon onClick={wipeJSONData}/>
+            <IconButton aria-label="Delete" >
+                <DeleteIcon/>
             </IconButton>
             {numSelected === 1 &&
               <IconButton aria-label="Edit">
@@ -62,6 +60,7 @@ const EnhancedTableToolbar = props => {
 }
 
 EnhancedTableToolbar.propTypes = {
+  title: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
   numSelected: PropTypes.number.isRequired,
   doSearch: PropTypes.func.isRequired
