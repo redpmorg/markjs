@@ -1,14 +1,11 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import Dialog from 'material-ui/Dialog';
 import Button from 'material-ui/Button';
 
-export default class DeleteDialog extends Component {
+class DeleteDialog extends Component {
   state = {
-    open: false
-  }
-
-  handleOpen = () => {
-    this.setState({open: true});
+    open: this.props.open
   }
 
   handleClose = () => {
@@ -35,12 +32,18 @@ export default class DeleteDialog extends Component {
     return (
       <Dialog
         title = {this.props.title}
-        actions = {actions}
         modal = {this.props.modal}
-        open = {this.state.open}
+        open = {this.props.open}
         >
-          {this.props.body}
+          stergggg!
         </Dialog>
     )
   }
 }
+
+DeleteDialog.propTypes = {
+  title: PropTypes.string.isRequired,
+  modal: PropTypes.bool.isRequired,
+}
+
+export default DeleteDialog;

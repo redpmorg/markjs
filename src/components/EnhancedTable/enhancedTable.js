@@ -140,7 +140,7 @@ class EnhancedTable extends Component {
       overflowX: 'auto'
     },
     header: {
-      backgroundColor: theme.palette.primary[100],
+      backgroundColor: theme.palette.primary[300],
     },
     rowHeight: {
       height: '30px'

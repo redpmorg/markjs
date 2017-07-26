@@ -12,9 +12,22 @@ import AddIcon from 'material-ui-icons/Add';
 import TextField from 'material-ui/TextField';
 import DeleteDialog from '../deleteDialog.js'
 
-const EnhancedTableToolbar = props => {
-  const {title, numSelected, classes, doSearch} = props;
 
+class EnhancedTableToolbar extends Component {
+
+  state = {
+    handleDeleteModal: false
+  }
+
+
+  handleDeleteModal = (e) => {
+    this.setState({
+      handleDeleteModal: !this.state.handleDeleteModal
+    })
+  }
+
+render() {
+  const {title, numSelected, classes, doSearch} = this.props;
   return (
     <Toolbar
       className = {classNames(classes.root, {
@@ -30,7 +43,7 @@ const EnhancedTableToolbar = props => {
             : <Typography type="title">
                 {title}
                 <div>
-                  <TextField placeholder="search..." style={{fontSize: '11px'}} onChange={props.doSearch}/>
+                  <TextField placeholder="search..." style={{fontSize: '11px'}} onChange={this.props.doSearch}/>
                 </div>
               </Typography>
           }
@@ -39,24 +52,26 @@ const EnhancedTableToolbar = props => {
           {numSelected > 0
           ?
           <div className={classes.actions}>
-            <IconButton aria-label="Delete" >
+            <Button fab aria-label="Delete" className = {classes.button} onClick={this.handleDeleteModal}>
                 <DeleteIcon/>
-            </IconButton>
+            </Button>
             {numSelected === 1 &&
-              <IconButton aria-label="Edit">
+              <Button fab aria-label="Edit" className={classes.button}>
                   <EditIcon/>
-              </IconButton>
+              </Button>
             }
           </div>
           :
           <div className={classes.actions}>
-            <IconButton aria-label="Add" list>
+            <Button fab color='primary' aria-label="Add" className={classes.button} >
                <AddIcon />
-            </IconButton>
+            </Button>
           </div>
           }
+          <DeleteDialog modal={true} title="Sterge ma" open={this.state.handleDeleteModal} />
       </Toolbar>
   )
+}
 }
 
 EnhancedTableToolbar.propTypes = {
@@ -74,8 +89,8 @@ const toolbarStyleSheet = createStyleSheet('EnhancedTableToolbar', theme => ({
   highlight:
     theme.palette.type === 'light'
       ? {
-          color: theme.palette.accent.A700,
-          backgroundColor: theme.palette.accent.A100,
+          color: theme.palette.accent.A100,
+          backgroundColor: theme.palette.accent.A600,
         }
       : {
           color: theme.palette.accent.A100,
@@ -92,6 +107,11 @@ const toolbarStyleSheet = createStyleSheet('EnhancedTableToolbar', theme => ({
   title: {
     flex: '0 0 auto',
   },
+  button: {
+    margin: theme.spacing.unit,
+    width: theme.spacing.unit * 5,
+    height: theme.spacing.unit * 5
+  }
 }));
 
 export default withStyles(toolbarStyleSheet)(EnhancedTableToolbar);
