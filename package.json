@@ -1,5 +1,5 @@
 {
-  "name": "learn-react-js",
+  "name": "markjs",
   "version": "1.0.0",
   "private": true,
   "main": "index.js",
@@ -32,6 +32,7 @@
     "react-autosuggest": "^9.3.1",
     "react-bootstrap": "^0.31.1",
     "react-dom": "^15.6.1",
+    "react-ultimate-pagination": "^1.0.2",
     "webpack": "^3.0.0"
   },
   "description": "",

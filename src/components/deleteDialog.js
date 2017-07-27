@@ -1,49 +1,105 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import Dialog from 'material-ui/Dialog';
+import classNames from 'classnames';
+import Dialog, {DialogTitle, DialogContent, DialogActions} from 'material-ui/Dialog';
 import Button from 'material-ui/Button';
+import DeleteForeverIcon from 'material-ui-icons/DeleteForever';
+import {withStyles, createStyleSheet} from 'material-ui/styles';
 
 class DeleteDialog extends Component {
-  state = {
-    open: this.props.open
+  state = {open: false}
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({open: nextProps.open})
   }
 
-  handleClose = () => {
+  handleClose = (e) => {
     this.setState({open: false});
+    this.props.handleDeleteDialog();
+  };
+
+  handleSubmit = (e) => {
+    const selectedRecords  = this.props.selectedRecords;
+    const path  = this.props.generalProps.restURL
+                + this.props.generalProps.delete.uri;
+
+    // ajax here with ${path}  {ids: [selectedRecords]}
+    console.log(`These records will be erased: ${selectedRecords}
+      and this it is the server path: ${path}`
+    )
+
+    // modify data. on ajax success, callback this.props.updateData():
+    this.props.updateData();
+
+    this.handleClose();
   }
 
   render() {
-    const actions = [
-      <Button
-        raised
-        label = "Cancel"
-        primary = {true}
-        onTouchTap = {this.handleClose}
-      />,
-      <Button
-        rasised
-        label = "Submit"
-        primary = {true}
-        disabled = {true}
-        onTouchTap = {this.handleClose}
-      />
-    ];
-
+    const p = this.props.generalProps.delete;
     return (
       <Dialog
-        title = {this.props.title}
-        modal = {this.props.modal}
-        open = {this.props.open}
+        ignoreBackdropClick
+        ignoreEscapeKeyUp
+        open = {this.state.open}
+        // onEntered = {this.getSelectedRecords}
+        className = {this.props.classes.dialog}
         >
-          stergggg!
+          <DialogTitle className={this.props.classes.title}>
+            <DeleteForeverIcon className={this.props.classes.titleIcon}/>
+          </DialogTitle>
+          <DialogContent className={this.props.classes.dialogDeleteContent}>
+            <p>You are about to delete {this.props.selectedRecords.length > 1
+            ? this.props.selectedRecords.length + ' rows'
+            : '1 row'}!</p>
+            <h2>{p.title}</h2>
+            <p>{p.additionalText}</p>
+          </DialogContent>
+          <DialogActions className = {this.props.classes.actions}>
+            <Button raised onClick = {this.handleSubmit} className={this.props.classes.redButton}> {p.submitLabel} </Button>
+            <Button raised  onClick = {this.handleClose}> {p.cancelLabel} </Button>
+          </DialogActions>
         </Dialog>
     )
   }
 }
 
 DeleteDialog.propTypes = {
-  title: PropTypes.string.isRequired,
-  modal: PropTypes.bool.isRequired,
+  generalProps: PropTypes.object.isRequired,
+  open: PropTypes.bool.isRequired,
+  selectedRecords: PropTypes.array.isRequired,
+  handleDeleteDialog: PropTypes.func.isRequired,
+  updateData: PropTypes.func.isRequired
 }
 
-export default DeleteDialog;
+const styleSheet = createStyleSheet('DeleteDialog', theme => ({
+    dialog: {
+      width: '100%',
+      maxHeight: 435,
+      fontFamily: '"Roboto", "Arial"'
+    },
+    titleIcon: {
+      color: theme.palette.error[700],
+      width: '50%',
+      height: '50%',
+      verticalAlign: 'middle',
+    },
+    title: {
+      textAlign: 'center',
+      padding: 0
+    },
+    dialogDeleteContent: {
+      textAlign: 'center',
+    },
+    redButton: {
+        color: "#ffffff",
+        backgroundColor: theme.palette.error[700],
+    },
+    actions: {
+      paddingBottom: '1em',
+      color: '#7e7e7e',
+      justifyContent: 'center'
+    }
+
+}));
+
+export default withStyles(styleSheet)(DeleteDialog);

@@ -9,22 +9,12 @@ import IconButton from 'material-ui/IconButton';
 import DeleteIcon from 'material-ui-icons/Delete';
 import EditIcon from 'material-ui-icons/Edit';
 import AddIcon from 'material-ui-icons/Add';
+import DoneIcon from 'material-ui-icons/Done';
+import DoneAllIcon from 'material-ui-icons/DoneAll';
 import TextField from 'material-ui/TextField';
-import DeleteDialog from '../deleteDialog.js'
 
 
 class EnhancedTableToolbar extends Component {
-
-  state = {
-    handleDeleteModal: false
-  }
-
-
-  handleDeleteModal = (e) => {
-    this.setState({
-      handleDeleteModal: !this.state.handleDeleteModal
-    })
-  }
 
 render() {
   const {title, numSelected, classes, doSearch} = this.props;
@@ -37,8 +27,12 @@ render() {
         <div className = {classes.title}>
           {numSelected > 0
             ? <Typography
-                type="subheading">{numSelected}
-                {numSelected > 1 ? 'rows' : 'row'} selected
+                type="subheading">
+                {numSelected === 1
+                  ? <DoneIcon className={this.props.classes.smallIconsToolbar}/>
+                  : <DoneAllIcon className={this.props.classes.smallIconsToolbar}/>
+                }
+                {numSelected} {numSelected > 1 ? 'rows' : 'row'} selected
               </Typography>
             : <Typography type="title">
                 {title}
@@ -52,8 +46,8 @@ render() {
           {numSelected > 0
           ?
           <div className={classes.actions}>
-            <Button fab aria-label="Delete" className = {classes.button} onClick={this.handleDeleteModal}>
-                <DeleteIcon/>
+            <Button fab aria-label="Delete" className = {classes.button} >
+                <DeleteIcon onClick={this.props.handleDeleteDialog}/>
             </Button>
             {numSelected === 1 &&
               <Button fab aria-label="Edit" className={classes.button}>
@@ -68,7 +62,6 @@ render() {
             </Button>
           </div>
           }
-          <DeleteDialog modal={true} title="Sterge ma" open={this.state.handleDeleteModal} />
       </Toolbar>
   )
 }
@@ -78,7 +71,8 @@ EnhancedTableToolbar.propTypes = {
   title: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
   numSelected: PropTypes.number.isRequired,
-  doSearch: PropTypes.func.isRequired
+  doSearch: PropTypes.func.isRequired,
+  handleDeleteDialog: PropTypes.func.isRequired
 }
 
 
@@ -98,7 +92,10 @@ const toolbarStyleSheet = createStyleSheet('EnhancedTableToolbar', theme => ({
         },
   spacer: {
     flex: '1 1 auto',
-
+  },
+  smallIconsToolbar: {
+    verticalAlign: 'middle',
+    marginRight: "1em"
   },
   actions: {
     color: theme.palette.text.secondary,

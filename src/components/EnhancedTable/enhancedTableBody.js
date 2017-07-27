@@ -13,12 +13,7 @@ const EnhancedTableBody = props => {
     data, columnProperties,
     query, searchableColumns, classes,
     handleIsSelected, handleClick,
-    handleKeyDown, order, orderBy } = props;
-
-  data.sort(
-      (a,b) => (order === 'desc' ? b[orderBy] > a[orderBy] : a[orderBy] > b[orderBy])
-  );
-
+    handleKeyDown} = props;
 
   return (
     <TableBody>
@@ -28,7 +23,7 @@ const EnhancedTableBody = props => {
         // search on data. if not exist return
         if (searchableColumns.reduce((acc, cur) => {
             return acc && (row[cur].toString().toLowerCase().indexOf(query) === -1)
-          }, 1)) {
+          }, true)) {
             return;
           }
 
@@ -55,9 +50,9 @@ const EnhancedTableBody = props => {
                     let cp = columnProperties[idx-1],
                     colID = cp['id'];
                     if (column === colID) {
-
                       return (
                         <TableCell key={idx} numeric={cp.numeric} disablePadding = {cp.disablePadding} >
+                          {/* {colID === 'name' && '[' + row['id'] + ']' } */}
                           {row[column]}
                         </TableCell>
                       )}
@@ -78,8 +73,8 @@ EnhancedTableBody.PropTypes = {
   handleIsSelected: PropTypes.func.isRequired,
   handleClick: PropTypes.func.isRequired,
   handleKeyDown: PropTypes.func.isRequired,
-  order: PropTypes.string.isRequired,
-  orderBy: PropTypes.string.isRequired,
+  // order: PropTypes.string.isRequired,
+  // orderBy: PropTypes.string.isRequired,
   query: PropTypes.string.isRequired,
   searchableColumns: PropTypes.array.isRequired
 }
