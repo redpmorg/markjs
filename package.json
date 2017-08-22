@@ -16,6 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "autosuggest-highlight": "^3.1.0",
+    "axios": "^0.16.2",
     "babel-loader": "^7.1.1",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-runtime": "^6.23.0",

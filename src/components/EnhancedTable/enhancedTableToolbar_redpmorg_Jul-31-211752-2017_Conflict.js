@@ -6,6 +6,7 @@ import Button from 'material-ui/Button';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import IconButton from 'material-ui/IconButton';
+// import Icon from 'material-ui/Icon';
 import DeleteIcon from 'material-ui-icons/Delete';
 import EditIcon from 'material-ui-icons/Edit';
 import AddIcon from 'material-ui-icons/Add';
@@ -37,7 +38,9 @@ render() {
             : <Typography type="title">
                 {title}
                 <div>
-                  <TextField className={this.props.classes.searchField} placeholder="search..." onChange={this.props.doSearch}/>
+                  <TextField placeholder="search..." style={{fontSize: '11px', width: '100%'}} onChange={this.props.doSearch}>
+                </TextField>
+                {/* <IconButton className={this.props.classes.smallIconsToolbar}>x</IconButton> */}
                 </div>
               </Typography>
           }
@@ -95,7 +98,8 @@ const toolbarStyleSheet = createStyleSheet('EnhancedTableToolbar', theme => ({
   },
   smallIconsToolbar: {
     verticalAlign: 'middle',
-    marginRight: "1em"
+    marginRight: "1em",
+    fontSize: '14px'
   },
   actions: {
     color: theme.palette.text.secondary,
@@ -108,10 +112,6 @@ const toolbarStyleSheet = createStyleSheet('EnhancedTableToolbar', theme => ({
     margin: theme.spacing.unit,
     width: theme.spacing.unit * 5,
     height: theme.spacing.unit * 5
-  },
-  searchField: {
-    fontSize: '11px',
-    width: '100%',
   }
 }));
 

@@ -20,7 +20,7 @@ class DeleteDialog extends Component {
 
   handleSubmit = (e) => {
     const selectedRecords  = this.props.selectedRecords;
-    const path  = this.props.generalProps.restURL
+    const path  = this.props.generalProps.url
                 + this.props.generalProps.delete.uri;
 
     // ajax here with ${path}  {ids: [selectedRecords]}

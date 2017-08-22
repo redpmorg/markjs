@@ -32,9 +32,15 @@ export const columnProperties = [
 ]
 
 export const tableGeneralProperties = {
-  restURL: 'http://127.0.0.1:80',
+  url: 'http://127.0.0.1:80',
   tableTitle: 'MarkJS Nomenclator',
   rowsPerPage: 5,
+  add: {
+    uri: '/'
+  },
+  edit: {
+
+  },
   delete: {
     uri: "/delete",
     title: 'Are you sure?',

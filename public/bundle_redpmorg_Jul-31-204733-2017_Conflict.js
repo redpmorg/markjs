@@ -36576,7 +36576,7 @@ var DeleteDialog = function (_Component) {
       _this.props.handleDeleteDialog();
     }, _this.handleSubmit = function (e) {
       var selectedRecords = _this.props.selectedRecords;
-      var path = _this.props.generalProps.url + _this.props.generalProps.delete.uri;
+      var path = _this.props.generalProps.restURL + _this.props.generalProps.delete.uri;
 
       // ajax here with ${path}  {ids: [selectedRecords]}
       console.log('These records will be erased: ' + selectedRecords + '\n      and this it is the server path: ' + path);
@@ -39756,6 +39756,7 @@ var _TextField2 = _interopRequireDefault(_TextField);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// import Icon from 'material-ui/Icon';
 var EnhancedTableToolbar = function (_Component) {
   (0, _inherits3.default)(EnhancedTableToolbar, _Component);
 
@@ -39797,7 +39798,7 @@ var EnhancedTableToolbar = function (_Component) {
             _react2.default.createElement(
               'div',
               null,
-              _react2.default.createElement(_TextField2.default, { className: this.props.classes.searchField, placeholder: 'search...', onChange: this.props.doSearch })
+              _react2.default.createElement(_TextField2.default, { placeholder: 'search...', style: { fontSize: '11px', width: '100%' }, onChange: this.props.doSearch })
             )
           )
         ),
@@ -39855,7 +39856,8 @@ var toolbarStyleSheet = (0, _styles.createStyleSheet)('EnhancedTableToolbar', fu
     },
     smallIconsToolbar: {
       verticalAlign: 'middle',
-      marginRight: "1em"
+      marginRight: "1em",
+      fontSize: '14px'
     },
     actions: {
       color: theme.palette.text.secondary,
@@ -39868,10 +39870,6 @@ var toolbarStyleSheet = (0, _styles.createStyleSheet)('EnhancedTableToolbar', fu
       margin: theme.spacing.unit,
       width: theme.spacing.unit * 5,
       height: theme.spacing.unit * 5
-    },
-    searchField: {
-      fontSize: '11px',
-      width: '100%'
     }
   };
 });
@@ -43018,13 +43016,9 @@ var data = exports.data = [{ id: 1, name: "aleonard", age: 43, sex: 'men', locat
 var columnProperties = exports.columnProperties = [{ id: 'name', numeric: false, disablePadding: true, label: 'Name', style: { textTransform: "capitalize" }, searchable: true }, { id: 'age', numeric: true, disablePadding: false, label: 'Age', style: { textTransform: "none" }, searchable: true }, { id: 'sex', numeric: false, disablePadding: false, label: 'Sex', style: { textTransform: "uppercase" }, searchable: true }, { id: 'location', numeric: false, disablePadding: false, label: 'Location', style: { textTransform: "none" }, searchable: true }];
 
 var tableGeneralProperties = exports.tableGeneralProperties = {
-  url: 'http://127.0.0.1:80',
+  restURL: 'http://127.0.0.1:80',
   tableTitle: 'MarkJS Nomenclator',
   rowsPerPage: 5,
-  add: {
-    uri: '/'
-  },
-  edit: {},
   delete: {
     uri: "/delete",
     title: 'Are you sure?',
