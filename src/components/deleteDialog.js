@@ -29,7 +29,7 @@ class DeleteDialog extends Component {
     )
 
     // modify data. on ajax success, callback this.props.updateData():
-    this.props.updateData();
+    this.props.updateData(this, response);
 
     this.handleClose();
   }

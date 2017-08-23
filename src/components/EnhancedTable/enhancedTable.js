@@ -119,13 +119,13 @@ class EnhancedTable extends Component {
 
   //this method will call an ajax to update the state.data
   // url/GET/data
-  updateData = (e) => {
-    const data = [
+  updateData = (e, data) => {
+    // for testing purpose just
+    data = [
         {id: 4, name: "daria", age: 6, sex: 'women', location: "constanta"},
         {id: 5, name: "luca", age: 3.3, sex: 'men', location: "constanta"},
       ];
 
-      // again get data from server
       this.setState({model: data});
   }
 
@@ -136,6 +136,7 @@ class EnhancedTable extends Component {
   }
 
   onPageChangeFromPagination(newPage) {
+    // ajax here to modify the
     console.log(newPage)
      this.setState({currentPage: newPage});
    }
