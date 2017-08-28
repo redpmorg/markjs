@@ -169,6 +169,13 @@ class EnhancedTable extends Component {
 
     return(
       <div>
+        <DeleteDialog
+          generalProps={this.props.tableGeneralProperties}
+          open={this.state.handleDeleteDialog}
+          selectedRecords = {this.state.selected}
+          handleDeleteDialog = {this.handleDeleteDialog}
+          updateData = {this.updateData}
+        />
         <Paper className={this.props.classes.paper}>
           <EnhancedTableToolbar
             title = {this.props.tableGeneralProperties.tableTitle}
@@ -209,13 +216,6 @@ class EnhancedTable extends Component {
             />
          </div>
         </Paper>
-        <DeleteDialog
-          generalProps={this.props.tableGeneralProperties}
-          open={this.state.handleDeleteDialog}
-          selectedRecords = {this.state.selected}
-          handleDeleteDialog = {this.handleDeleteDialog}
-          updateData = {this.updateData}
-          />
       </div>
     )}
   }
@@ -226,7 +226,7 @@ class EnhancedTable extends Component {
   const styleSheet = createStyleSheet('EnhancedTable', theme => ({
     paper: {
       width: '100%',
-      marginTop: theme.spacing.unit * 6,
+      marginTop: theme.spacing.unit * 2,
       overflowX: 'auto',
       backgroundColor: '#e3e3e3'
     },

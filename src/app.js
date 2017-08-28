@@ -6,11 +6,9 @@ import teal from 'material-ui/colors/teal.js'
 import lime from 'material-ui/colors/lime.js'
 import blue from 'material-ui/colors/blue.js'
 import red from 'material-ui/colors/red.js'
-import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
-import EnhancedTable from './components/EnhancedTable/enhancedTable.js';
-import withMenu from './HOC/menu.js';
-import * as Model from './data.js';
 
+import MenuBar from './components/menuBar';
+import {menuTop as menu} from './data.js';
 
 const theme = createMuiTheme({
   palette: createPalette({
@@ -33,16 +31,9 @@ const theme = createMuiTheme({
   })
 });
 
-const App =
-    <div>
-      <MuiThemeProvider theme={theme}>
-        <EnhancedTable
-            tableGeneralProperties={Model.tableGeneralProperties}
-            columnProperties={Model.columnProperties}
-            model={Model.data}/>
-      </MuiThemeProvider>
-    </div>;
+const App = () =>
+    <MuiThemeProvider theme={theme}>
+        <MenuBar menu={menu}/>
+    </MuiThemeProvider>;
 
-const AppWithMenu = withMenu(App);
-
-ReactDOM.render(<AppWithMenu/>, document.getElementById('root'));
+ReactDOM.render(<App/>, document.getElementById('root'));

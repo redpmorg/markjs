@@ -1,42 +1,37 @@
-export const menu = {
-  1: {
-    props: {
-      label: "Home",
-      route: {
-        url: "/",
-        exact: true
-      },
-      component: {
-        path: "components",
-        name: "home"
-      }
+export const menuTop = [
+  {
+    id: 1,
+    label: "Home",
+    route: {
+      url: "/",
+      exact: true
+    },
+    component: {
+      path: "components",
+      name: "home"
     }
-  },
-  2: {
-    props: {
-      label: "About",
-      route: {
-        url: "/about",
-      },
-      component: {
-        path: "components",
-        name: "about"
-      }
+  }, {
+    id: 4,
+    label: "Nomenclator",
+    route: {
+      url: "/nomenclator"
+    },
+    component: {
+      path: "components",
+      name: "nomenclator"
     }
-  },
-  3: {
-    props: {
-      label: "Topics",
-      route: {
-        url: "",
-      },
-      component: {
-        path: "components",
-        name: "about"
-      }
+  }, {
+    id: 3,
+    label: "Topics",
+    route: {
+      url: "/topics"
+    },
+    component: {
+      path: "components",
+      name: "testTopics"
     }
-  },
-}
+  }
+];
 
 export const tableGeneralProperties = {
   url: 'http://127.0.0.1:80',
