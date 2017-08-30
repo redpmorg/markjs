@@ -5,18 +5,15 @@ import EnhancedTable from '../components/EnhancedTable/enhancedTable.js';
 const Nomenclator = (props) => {
     // console.log(props);
     let model = props.model;
-    return(
-         <EnhancedTable
-             tableGeneralProperties={model.tableGeneralProperties}
+    return <EnhancedTable tableGeneralProperties={model.tableGeneralProperties}
              columnProperties={model.columnProperties}
-             model={model.data}/>
-    );
+             model={model.data}/>;
 };
 
-let config = {
+let cfg = {
   url: 'http://bla.bla',
   method: "GET",
   returnType: "JSON"
 }
 
-export default fetchData(config)(Nomenclator);
+export default fetchData(cfg)(Nomenclator);

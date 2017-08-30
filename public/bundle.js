@@ -19523,7 +19523,7 @@ exports.default = Home;
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _react = __webpack_require__(2);
@@ -19541,21 +19541,20 @@ var _enhancedTable2 = _interopRequireDefault(_enhancedTable);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Nomenclator = function Nomenclator(props) {
-    // console.log(props);
-    var model = props.model;
-    return _react2.default.createElement(_enhancedTable2.default, {
-        tableGeneralProperties: model.tableGeneralProperties,
-        columnProperties: model.columnProperties,
-        model: model.data });
+  // console.log(props);
+  var model = props.model;
+  return _react2.default.createElement(_enhancedTable2.default, { tableGeneralProperties: model.tableGeneralProperties,
+    columnProperties: model.columnProperties,
+    model: model.data });
 };
 
-var config = {
-    url: 'http://bla.bla',
-    method: "GET",
-    returnType: "JSON"
+var cfg = {
+  url: 'http://bla.bla',
+  method: "GET",
+  returnType: "JSON"
 };
 
-exports.default = (0, _fetchData2.default)(config)(Nomenclator);
+exports.default = (0, _fetchData2.default)(cfg)(Nomenclator);
 
 /***/ }),
 /* 230 */,
