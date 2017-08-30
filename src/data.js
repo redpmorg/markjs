@@ -22,14 +22,37 @@ export const menuTop = [
     }
   }, {
     id: 3,
-    label: "Topics",
+    label: "Topics with Children",
     route: {
       url: "/topics"
     },
     component: {
       path: "components",
-      name: "testTopics"
-    }
+      name: "topics"
+    },
+    hasChildren: [
+      {
+        id: 1,
+        label: "SubTopics_1",
+        route: {
+          url: "/topics/subtopics_1"
+        },
+        component: {
+          path: "components",
+          name: "subtopics_1"
+        }
+      }, {
+        id: 2,
+        label: "SubTopics_2",
+        route: {
+          url: "/topics/subtopics_2"
+        },
+        component: {
+          path: "components",
+          name: "subtopics_2"
+        },
+      },
+    ],
   }
 ];
 

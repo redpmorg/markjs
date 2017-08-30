@@ -1,10 +1,7 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 
-const TestTopics = () => {
+const Topics = () => {
   return <h1>Topics</h1>;
 }
-
-
-
-export default TestTopics;
+export default Topics;

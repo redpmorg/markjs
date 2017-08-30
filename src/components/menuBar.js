@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {withStyles, createStyleSheet} from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
+import Menu, {MenuItem} from 'material-ui/Menu';
 
 const RouteMenu = props => {
     let routes = props.menu.map((item) => {
@@ -21,15 +22,64 @@ const RouteMenu = props => {
     return <div>{routes}</div>
 }
 
-const LinkMenu = props => {
-    let {classes, menu} = props;
-    let links = menu.map((item) =>
-      <li key={item.id} className={classes.liMenu}>
-        <Link key={item.id} to={item.route.url} className={classes.aMenu}>
-          {item.label}
-        </Link>
-      </li>);
-    return <ul className={classes.ulMenu}>{links}</ul>;
+class LinkMenu extends Component{
+    state = {
+      anchorEl: undefined,
+      open: false
+    }
+
+    handleClick = (e) => {
+      this.setState({open: true, anchorEl: e.currentTarget});
+    }
+
+    handleRequestClose = () => {
+      this.setState({open: false});
+    }
+
+    render(){
+      let {classes, menu} = this.props;
+      let links = menu.map((item) => {
+        let linkProps = {
+          key: item.id,
+          to: item.route.url,
+          className: classes.aMenu
+        }
+
+        let menuName = 'menu-' + item.component.name;
+
+        if(item.hasChildren) {
+          linkProps['aria-owns']= this.state.open ? menuName : null;
+          linkProps['aria-haspopup'] = true;
+          linkProps['onClick']= this.handleClick;
+        }
+
+        let menuProps = {
+          id: menuName,
+          anchorEl: this.state.anchorEl,
+          open: this.state.open,
+          onRequestClose: this.handleRequestClose
+        }
+
+        let MenuItemElement = 'leo';
+        let MenuItemLink = <Link {...linkProps}> {item.label} </Link>;
+
+        if(item.hasChildren) {
+          let SubMenuItems = item.hasChildren.map((subitem) => {
+              return <MenuItem key={'mi-'+subitem.id} onClick={this.handleRequestClose}>
+                Leo
+                {/* <Link key={'li'+subitem.id} to={subitem.route.url}></Link> */}
+              </MenuItem>;
+          });
+          MenuItemElement = <div>{MenuItemLink}<Menu {...menuProps}> {SubMenuItems} </Menu></div>;
+        } else {
+          MenuItemElement = MenuItemLink;
+        }
+
+        return <li key={item.id} className={classes.liMenu}> {MenuItemElement} </li>;
+      });
+
+      return <ul className={classes.ulMenu}>{links}</ul>;
+    }
 }
 
 LinkMenu.propTypes = {

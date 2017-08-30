@@ -7,7 +7,7 @@ import lime from 'material-ui/colors/lime.js'
 import blue from 'material-ui/colors/blue.js'
 import red from 'material-ui/colors/red.js'
 
-import MenuBar from './components/menuBar';
+import MenuBar from './components/menuBar.js';
 import {menuTop as menu} from './data.js';
 
 const theme = createMuiTheme({
