@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import keycode from 'keycode';
+
 // material-ui
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 import Paper from 'material-ui/Paper';
@@ -14,19 +15,18 @@ import EnhancedTableToolbar from './enhancedTableToolbar.js'
 import EnhancedTableHeader from './enhancedTableHeader.js'
 import EnhancedTableBody from './enhancedTableBody.js'
 import UltimatePagination from './ultimatePagination.js'
-//data - this should be removed after cosntruct the REST
 
 class EnhancedTable extends Component {
-
   constructor(props) {
+    !PRODUCTION && console.log('component initializing...');
     super(props);
     this.state = {
       order: 'asc',
-      orderBy: props.columnProperties[0].id,
+      orderBy: 0,
       selected: [],
       query: '',
       handleDeleteDialog: false,
-      model: props.model,
+      model: this.props.data.data,
       currentPage: 1,
       totalPages: 1,
       boundaryPagesRange: 1,
@@ -37,28 +37,43 @@ class EnhancedTable extends Component {
     };
     this.handleDeleteDialog = this.handleDeleteDialog.bind(this);
     this.onPageChangeFromPagination = this.onPageChangeFromPagination.bind(this);
+    this.columnProperties = this.props.columnProperties.columnProperties;
+    this.tableGeneralProperties = this.props.tableGeneralProperties;
   }
 
-  componentWillMount(prevState) {
-    const pages = this.state.model.length
-                / this.props.tableGeneralProperties.rowsPerPage;
+  getTotalPages() {
+    return parseInt(this.state.model.length
+       / this.tableGeneralProperties.rowsPerPage);
+  }
+
+  componentWillReceiveProps() {
+    !PRODUCTION && console.log('component receive props...');
+
     this.setState({
-      totalPages: parseInt(pages)
-    })
+      model: this.props.data.data,
+      orderBy: this.columnProperties[0].id,
+      totalPages: this.getTotalPages()
+    });
   }
 
-  componentWillUpdate() {
-    //
+  componentWillMount() {
+    !PRODUCTION && console.log('component will be mounted...');
+    this.setState({
+      orderBy: this.columnProperties[0].id,
+      totalPages: this.getTotalPages()
+    });
+  }
+
+  componentDidMount() {
+    !PRODUCTION && console.log('component did mount...');
   }
 
   handleRequestSort = (event, orderBy) => {
     let order = 'desc';
-
     //TOGGLE THE SORT ORDER
     if(this.state.orderBy === orderBy && this.state.order == 'desc') {
       order = 'asc'
     }
-
     this.setState({ order, orderBy });
   };
 
@@ -110,23 +125,11 @@ class EnhancedTable extends Component {
   }
 
   searchableColumns = (e) => {
-    return this.props.columnProperties
+    return this.columnProperties
       .filter(c => c['searchable'])
       .reduce((acc, cur) => {
          return acc.concat(cur['id']);
       },[]);
-  }
-
-  //this method will call an ajax to update the state.data
-  // url/GET/data
-  updateData = (e, data) => {
-    // for testing purpose just
-    data = [
-        {id: 4, name: "daria", age: 6, sex: 'women', location: "constanta"},
-        {id: 5, name: "luca", age: 3.3, sex: 'men', location: "constanta"},
-      ];
-
-      this.setState({model: data});
   }
 
   handleDeleteDialog(){
@@ -142,6 +145,7 @@ class EnhancedTable extends Component {
    }
 
   render() {
+    !PRODUCTION && console.log('component rendered...');
     const {order, orderBy, model} = this.state;
 
     // sorting data
@@ -170,15 +174,15 @@ class EnhancedTable extends Component {
     return(
       <div>
         <DeleteDialog
-          generalProps={this.props.tableGeneralProperties}
+          generalProps={this.tableGeneralProperties}
           open={this.state.handleDeleteDialog}
           selectedRecords = {this.state.selected}
           handleDeleteDialog = {this.handleDeleteDialog}
-          updateData = {this.updateData}
+          updateData = {this.props.fetchData}
         />
         <Paper className={this.props.classes.paper}>
           <EnhancedTableToolbar
-            title = {this.props.tableGeneralProperties.tableTitle}
+            title = {this.tableGeneralProperties.tableTitle}
             numSelected={this.state.selected.length}
             handleDeleteDialog={this.handleDeleteDialog}
             doSearch = {this.doSearch}
@@ -186,7 +190,7 @@ class EnhancedTable extends Component {
           <Table className={this.props.classes.table}>
             <EnhancedTableHeader
               classes = {this.props.classes}
-              columnProperties = {this.props.columnProperties}
+              columnProperties = {this.columnProperties}
               order = {this.state.order}
               orderBy = {this.state.orderBy}
               onSelectAllClick = {this.handleSelectAllClick}
@@ -195,7 +199,7 @@ class EnhancedTable extends Component {
             <EnhancedTableBody
               classes = {this.props.classes}
               data = {model}
-              columnProperties = {this.props.columnProperties}
+              columnProperties = {this.columnProperties}
               query = {this.state.query}
               searchableColumns = {this.searchableColumns()}
               handleIsSelected = {this.handleIsSelected}

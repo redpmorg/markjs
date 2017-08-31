@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 
 const Home = () => {
-  return <h1>Welcome</h1>;
+  return <h1>Welcome to {APP_NAME}</h1>;
 }
 
 

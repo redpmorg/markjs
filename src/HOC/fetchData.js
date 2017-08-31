@@ -16,7 +16,6 @@ const fetchData = (config) => (Component) => {
         // let model = {model: result.model}
         let model = Model;
         return <Component model={model}/>;
-
     // });
   }
 }

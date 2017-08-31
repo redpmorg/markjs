@@ -20,9 +20,20 @@ module.exports = {
     ]
   },
   plugins: [
+    new webpack.DefinePlugin({
+      PRODUCTION: JSON.stringify(false),
+      APP_NAME: JSON.stringify("MarkJS"),
+      VERSION: JSON.stringify("alpha_1_git_commit"),
+      BROWSER_SUPPORTS_HTML5: true,
+      "typeof window": JSON.stringify("object")
+    }),
+    // new webpack.DefinePlugin({
+    //   'process.env.NODE_ENV': JSON.stringify(
+    //     process.env.NODE_ENV || 'development'
+    //   )
+    // }),
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.optimize.OccurrenceOrderPlugin(),
-    // new webpack.DefinePlugin({'process.env.NODE_ENV': '"production"'}),
     new webpack.optimize.UglifyJsPlugin({
       include: /\.min\.js$/,
       minimize: true,
@@ -40,6 +51,6 @@ module.exports = {
     })
   ],
   resolve: {
-    extensions: ['*', '.js', '.json']
+    extensions: ['*', '.js', '.json'],
   }
 };

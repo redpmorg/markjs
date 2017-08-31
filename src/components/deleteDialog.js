@@ -20,16 +20,16 @@ class DeleteDialog extends Component {
 
   handleSubmit = (e) => {
     const selectedRecords  = this.props.selectedRecords;
-    const path  = this.props.generalProps.url
-                + this.props.generalProps.delete.uri;
+    const path  =
+                // this.props.generalProps.url +
+                this.props.generalProps.delete.uri
+                + selectedRecords;
 
     // ajax here with ${path}  {ids: [selectedRecords]}
-    console.log(`These records will be erased: ${selectedRecords}
-      and this it is the server path: ${path}`
-    )
+    !PRODUCTION && console.log(`deleting records from ... ${path}`);
 
     // modify data. on ajax success, callback this.props.updateData():
-    this.props.updateData(this, response);
+    this.props.updateData();
 
     this.handleClose();
   }

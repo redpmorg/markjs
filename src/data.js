@@ -56,34 +56,6 @@ export const menuTop = [
   }
 ];
 
-export const tableGeneralProperties = {
-  url: 'http://127.0.0.1:80',
-  tableTitle: 'MarkJS Nomenclator',
-  rowsPerPage: 5,
-  add: {
-    uri: '/add',
-    title: 'Adding new record',
-    additionalText: 'adding is fun',
-    submitLabel: 'Add',
-    cancelLabel: 'Cancel'
-  },
-  edit: {
-    uri: '/edit',
-    title: 'Modify your data',
-    additionalText: 'modify is not a pure function',
-    submitLabel: 'Edit',
-    cancelLabel: 'Cancel'
-
-  },
-  delete: {
-    uri: "/delete",
-    title: 'Are you sure?',
-    additionalText: 'wiping data is irreversible',
-    submitLabel: 'Yes',
-    cancelLabel: 'No'
-  }
-}
-
 //TODO adding field reference like [input, select checkbox], placeholders and format its
 export const columnProperties = [
   {
