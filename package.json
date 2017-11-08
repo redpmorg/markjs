@@ -1,7 +1,11 @@
 {
   "name": "markjs",
+  "description": "The proof of concepts in Mark CMS",
   "version": "1.0.0",
   "private": true,
+  "keywords": [],
+  "author": "Leonard LEPADATU",
+  "license": "ISC",
   "main": "index.js",
   "scripts": {
     "express-server": "node ./server",
@@ -11,9 +15,6 @@
     "prod": "concurrently --kill-others \"npm run webpack-prod\" \"npm run express-server\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "Leonard LEPADATU",
-  "license": "ISC",
   "dependencies": {
     "autosuggest-highlight": "^3.1.0",
     "axios": "^0.16.2",
@@ -34,7 +35,6 @@
     "react-ultimate-pagination": "^1.0.2",
     "webpack": "^3.0.0"
   },
-  "description": "",
   "devDependencies": {
     "concurrently": "^3.5.0"
   }

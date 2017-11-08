@@ -7,79 +7,109 @@ import Toolbar from 'material-ui/Toolbar';
 import Menu, {MenuItem} from 'material-ui/Menu';
 
 const RouteMenu = props => {
-    let routes = props.menu.map((item) => {
-        let DynamicComponent = require(
-                '../'
-                + item.component.path
-                + '/'
-                + item.component.name).default;
-        return <Route key={item.id}
-                    path={item.route.url}
-                    exact={item.route.exact}
-                    render={() => (<DynamicComponent key={item.component.name} />)}
-                  />;
-      });
-    return <div>{routes}</div>
+  // parents
+  let routes = props.menu.map((item) => {
+    if(!item.hasChildren) {
+      let DynamicComponent = require(`../${item.component.path}/${item.component.name}`).default;
+      return <Route key={"menu-"+item.id}
+        path={item.route.url}
+        exact={item.route.exact}
+        render={() => <DynamicComponent key={item.component.name + "-" + item.id}/>}
+      />;
+    } else {
+      let children = item.hasChildren;
+      children.map((item, idx, routes ) => {
+        let DynamicComponent = require(`../${item.component.path}/${item.component.name}`).default;
+        return <Route key={"menu-"+item.id}
+          path={item.route.url}
+          exact={item.route.exact}
+          render={() => <DynamicComponent key={item.component.name + "-" + item.id}/>}
+        />;
+      })
+    }
+  });
+  console.log(routes)
+  return <div>{routes}</div>
 }
 
-class LinkMenu extends Component{
-    state = {
-      anchorEl: undefined,
-      open: false
-    }
+class LinkMenu extends Component {
+  state = {
+    anchorEl: undefined,
+    open: false
+  }
 
-    handleClick = (e) => {
-      this.setState({open: true, anchorEl: e.currentTarget});
-    }
+  handleClick = (e) => {
+    this.setState({open: true, anchorEl: e.currentTarget});
+  }
 
-    handleRequestClose = () => {
-      this.setState({open: false});
-    }
+  handleRequestClose = () => {
+    this.setState({open: false});
+  }
 
-    render(){
-      let {classes, menu} = this.props;
-      let links = menu.map((item) => {
-        let linkProps = {
-          key: item.id,
-          to: item.route.url,
-          className: classes.aMenu
-        }
+  render() {
+    let {classes, menu} = this.props;
+    let links = menu.map((item) => {
 
-        let menuName = 'menu-' + item.component.name;
+      let linkProps = {
+        key: item.id,
+        to: item.route.url,
+        className: classes.aMenu
+      }
 
-        if(item.hasChildren) {
-          linkProps['aria-owns']= this.state.open ? menuName : null;
-          linkProps['aria-haspopup'] = true;
-          linkProps['onClick']= this.handleClick;
-        }
+      let menuName = 'menu-' + item.component.name;
+      let MenuItemElement = '';
+      const MenuItemLink = p => (
+        <Link {...p}>
+          {item.label}
+        </Link>
+      );
+
+      if (item.hasChildren) {
+        linkProps['aria-owns'] = this.state.open
+          ? menuName
+          : null;
+        linkProps['aria-haspopup'] = true;
+        linkProps['onClick'] = this.handleClick;
+
+        let SubMenuItems = item.hasChildren.map(subitem => {
+          return (
+            <MenuItem key={'mi-' + subitem.id} onClick={this.handleRequestClose}>
+              <Link {...linkProps} key={'li' + subitem.id} to={subitem.route.url}>{subitem.label}</Link>
+            </MenuItem>
+          );
+        });
 
         let menuProps = {
           id: menuName,
           anchorEl: this.state.anchorEl,
           open: this.state.open,
-          onRequestClose: this.handleRequestClose
+          onRequestClose: this.handleRequestClose,
+          className: classes.subMenuContainer
         }
 
-        let MenuItemElement = 'leo';
-        let MenuItemLink = <Link {...linkProps}> {item.label} </Link>;
+        MenuItemElement = <div>
+          {MenuItemLink(linkProps)}
+          <Menu {...menuProps}>
+            {SubMenuItems}
+          </Menu>
+        </div>;
+      } else {
+        MenuItemElement = MenuItemLink(linkProps);
+      }
 
-        if(item.hasChildren) {
-          let SubMenuItems = item.hasChildren.map((subitem) => {
-              return <MenuItem key={'mi-'+subitem.id} onClick={this.handleRequestClose}>
-                Leo
-                {/* <Link key={'li'+subitem.id} to={subitem.route.url}></Link> */}
-              </MenuItem>;
-          });
-          MenuItemElement = <div>{MenuItemLink}<Menu {...menuProps}> {SubMenuItems} </Menu></div>;
-        } else {
-          MenuItemElement = MenuItemLink;
-        }
+      return (
+        <li key={item.id} className={classes.liMenu}>
+          {MenuItemElement}
+        </li>
+      );
+    }); //mapEnd
 
-        return <li key={item.id} className={classes.liMenu}> {MenuItemElement} </li>;
-      });
-
-      return <ul className={classes.ulMenu}>{links}</ul>;
-    }
+    return (
+      <ul className={classes.ulMenu}>
+        {links}
+      </ul>
+    );
+  }
 }
 
 LinkMenu.propTypes = {
@@ -109,30 +139,34 @@ const MenuBar = props => {
   );
 }
 
-const stylesSheet = createStyleSheet('MenuBar', theme =>({
+const stylesSheet = createStyleSheet('MenuBar', theme => ({
   root: {
     marginTop: '-8px',
     width: '100%',
-    fontFamily: ['Roboto', 'Arial', 'Helvetica'],
+    fontFamily: ['Roboto', 'Arial', 'Helvetica']
   },
   flex: {
     flex: 1
   },
   ulMenu: {
-      listStyleType: 'none',
-      margin: 0,
-      padding: 0,
-      overflow: 'hidden'
-    },
+    listStyleType: 'none',
+    margin: 0,
+    padding: 0,
+    overflow: 'hidden'
+  },
   liMenu: {
     float: 'left',
     display: 'block',
     textAlign: 'center',
-    padding: "14px 16px",
+    padding: "14px 16px"
   },
   aMenu: {
     textDecoration: 'none',
     color: '#eeeeee'
+  },
+  subMenuContainer: {
+    marginTop: "3.2rem",
+    backgroundColor: "#2C99fe"
   }
 }));
 

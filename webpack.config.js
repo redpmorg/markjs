@@ -27,11 +27,6 @@ module.exports = {
       BROWSER_SUPPORTS_HTML5: true,
       "typeof window": JSON.stringify("object")
     }),
-    // new webpack.DefinePlugin({
-    //   'process.env.NODE_ENV': JSON.stringify(
-    //     process.env.NODE_ENV || 'development'
-    //   )
-    // }),
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.optimize.UglifyJsPlugin({

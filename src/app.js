@@ -8,6 +8,7 @@ import blue from 'material-ui/colors/blue.js'
 import red from 'material-ui/colors/red.js'
 
 import MenuBar from './components/menuBar.js';
+// this can be fetched by API GET/menuItems
 import {menuTop as menu} from './data.js';
 
 const theme = createMuiTheme({

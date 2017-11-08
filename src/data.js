@@ -24,7 +24,7 @@ export const menuTop = [
     id: 3,
     label: "Topics with Children",
     route: {
-      url: "/topics"
+      url: "",
     },
     component: {
       path: "components",
@@ -32,7 +32,7 @@ export const menuTop = [
     },
     hasChildren: [
       {
-        id: 1,
+        id: 10,
         label: "SubTopics_1",
         route: {
           url: "/topics/subtopics_1"
@@ -42,7 +42,7 @@ export const menuTop = [
           name: "subtopics_1"
         }
       }, {
-        id: 2,
+        id: 20,
         label: "SubTopics_2",
         route: {
           url: "/topics/subtopics_2"

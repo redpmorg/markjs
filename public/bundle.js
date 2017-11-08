@@ -4544,14 +4544,14 @@ var menuTop = exports.menuTop = [{
   id: 3,
   label: "Topics with Children",
   route: {
-    url: "/topics"
+    url: ""
   },
   component: {
     path: "components",
     name: "topics"
   },
   hasChildren: [{
-    id: 1,
+    id: 10,
     label: "SubTopics_1",
     route: {
       url: "/topics/subtopics_1"
@@ -4561,7 +4561,7 @@ var menuTop = exports.menuTop = [{
       name: "subtopics_1"
     }
   }, {
-    id: 2,
+    id: 20,
     label: "SubTopics_2",
     route: {
       url: "/topics/subtopics_2"
@@ -6965,6 +6965,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends2 = __webpack_require__(3);
+
+var _extends3 = _interopRequireDefault(_extends2);
+
 var _getPrototypeOf = __webpack_require__(12);
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
@@ -7012,16 +7016,32 @@ var _Menu2 = _interopRequireDefault(_Menu);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var RouteMenu = function RouteMenu(props) {
+  // parents
   var routes = props.menu.map(function (item) {
-    var DynamicComponent = __webpack_require__(493)("./" + item.component.path + '/' + item.component.name).default;
-    return _react2.default.createElement(_reactRouterDom.Route, { key: item.id,
-      path: item.route.url,
-      exact: item.route.exact,
-      render: function render() {
-        return _react2.default.createElement(DynamicComponent, { key: item.component.name });
-      }
-    });
+    if (!item.hasChildren) {
+      var DynamicComponent = __webpack_require__(493)("./" + item.component.path + '/' + item.component.name).default;
+      return _react2.default.createElement(_reactRouterDom.Route, { key: "menu-" + item.id,
+        path: item.route.url,
+        exact: item.route.exact,
+        render: function render() {
+          return _react2.default.createElement(DynamicComponent, { key: item.component.name + "-" + item.id });
+        }
+      });
+    } else {
+      var children = item.hasChildren;
+      children.map(function (item, idx, routes) {
+        var DynamicComponent = __webpack_require__(493)("./" + item.component.path + '/' + item.component.name).default;
+        return _react2.default.createElement(_reactRouterDom.Route, { key: "menu-" + item.id,
+          path: item.route.url,
+          exact: item.route.exact,
+          render: function render() {
+            return _react2.default.createElement(DynamicComponent, { key: item.component.name + "-" + item.id });
+          }
+        });
+      });
+    }
   });
+  console.log(routes);
   return _react2.default.createElement(
     'div',
     null,
@@ -7063,6 +7083,7 @@ var LinkMenu = function (_Component) {
           menu = _props.menu;
 
       var links = menu.map(function (item) {
+
         var linkProps = {
           key: item.id,
           to: item.route.url,
@@ -7070,61 +7091,60 @@ var LinkMenu = function (_Component) {
         };
 
         var menuName = 'menu-' + item.component.name;
+        var MenuItemElement = '';
+        var MenuItemLink = function MenuItemLink(p) {
+          return _react2.default.createElement(
+            _reactRouterDom.Link,
+            p,
+            item.label
+          );
+        };
 
         if (item.hasChildren) {
           linkProps['aria-owns'] = _this2.state.open ? menuName : null;
           linkProps['aria-haspopup'] = true;
           linkProps['onClick'] = _this2.handleClick;
-        }
 
-        var menuProps = {
-          id: menuName,
-          anchorEl: _this2.state.anchorEl,
-          open: _this2.state.open,
-          onRequestClose: _this2.handleRequestClose
-        };
-
-        var MenuItemElement = 'leo';
-        var MenuItemLink = _react2.default.createElement(
-          _reactRouterDom.Link,
-          linkProps,
-          ' ',
-          item.label,
-          ' '
-        );
-
-        if (item.hasChildren) {
           var SubMenuItems = item.hasChildren.map(function (subitem) {
             return _react2.default.createElement(
               _Menu.MenuItem,
               { key: 'mi-' + subitem.id, onClick: _this2.handleRequestClose },
-              'Leo'
+              _react2.default.createElement(
+                _reactRouterDom.Link,
+                (0, _extends3.default)({}, linkProps, { key: 'li' + subitem.id, to: subitem.route.url }),
+                subitem.label
+              )
             );
           });
+
+          var menuProps = {
+            id: menuName,
+            anchorEl: _this2.state.anchorEl,
+            open: _this2.state.open,
+            onRequestClose: _this2.handleRequestClose,
+            className: classes.subMenuContainer
+          };
+
           MenuItemElement = _react2.default.createElement(
             'div',
             null,
-            MenuItemLink,
+            MenuItemLink(linkProps),
             _react2.default.createElement(
               _Menu2.default,
               menuProps,
-              ' ',
-              SubMenuItems,
-              ' '
+              SubMenuItems
             )
           );
         } else {
-          MenuItemElement = MenuItemLink;
+          MenuItemElement = MenuItemLink(linkProps);
         }
 
         return _react2.default.createElement(
           'li',
           { key: item.id, className: classes.liMenu },
-          ' ',
-          MenuItemElement,
-          ' '
+          MenuItemElement
         );
-      });
+      }); //mapEnd
 
       return _react2.default.createElement(
         'ul',
@@ -7196,6 +7216,10 @@ var stylesSheet = (0, _styles.createStyleSheet)('MenuBar', function (theme) {
     aMenu: {
       textDecoration: 'none',
       color: '#eeeeee'
+    },
+    subMenuContainer: {
+      marginTop: "3.2rem",
+      backgroundColor: "#2C99fe"
     }
   };
 });
@@ -8128,6 +8152,8 @@ var theme = (0, _styles.createMuiTheme)({
     error: (0, _extends3.default)({}, _red2.default)
   })
 });
+// this can be fetched by API GET/menuItems
+
 
 var App = function App() {
   return _react2.default.createElement(
@@ -43866,6 +43892,10 @@ var map = {
 	"./components/nomenclator.js": 233,
 	"./components/nomenclator_hoc": 234,
 	"./components/nomenclator_hoc.js": 234,
+	"./components/subtopics_1": 564,
+	"./components/subtopics_1.js": 564,
+	"./components/subtopics_2": 565,
+	"./components/subtopics_2.js": 565,
 	"./components/topics": 235,
 	"./components/topics.js": 235,
 	"./containers/getContainer": 145,
@@ -49299,6 +49329,67 @@ exports.default = ChevronRight;
 /***/ (function(module, exports) {
 
 throw new Error("Module parse failed: /var/www/markJS/src/components/addEditFrom.jsx Unexpected token (19:11)\nYou may need an appropriate loader to handle this file type.\n|   }\n| \n|   onSubmit = (e) => {\n|     e.preventDefault();\n|     const formData = Array.from(e.target.elements)");
+
+/***/ }),
+/* 563 */,
+/* 564 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(2);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(27);
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var SubTopics_1 = function SubTopics_1() {
+  return _react2.default.createElement(
+    'h1',
+    null,
+    'SubTopics1'
+  );
+};
+exports.default = SubTopics_1;
+
+/***/ }),
+/* 565 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(2);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(27);
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var SubTopics_2 = function SubTopics_2() {
+  return _react2.default.createElement(
+    'h1',
+    null,
+    'SubTopics2'
+  );
+};
+exports.default = SubTopics_2;
 
 /***/ })
 /******/ ]);
